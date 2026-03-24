@@ -1,0 +1,48 @@
+GitHub Link ---> https://github.com/vivek9325/SPLK_CISCO_INDIA_23_03_2026.git
+
+
+index=_internal
+
+
+index=main sourcetype="csv" 
+| table ticket_number, severity, current_ticket_state 
+| rename ticket_number AS incident_number, current_ticket_state AS "ticket state"
+
+
+index=_internal sourcetype=splunkd_ui_access | table bytes | stats sum(bytes) AS total_bytes
+
+index=_internal sourcetype=splunkd_ui_access | table bytes | stats avg(bytes) AS average_bytes
+
+index=_internal | stats values(source) AS source BY sourcetype
+
+
+index=_internal 
+| stats sum(bytes) AS total_bytes by sourcetype 
+| eval status = case(total_bytes<644441165, "True", 1=1, "False")
+
+
+index=_internal 
+| stats sum(bytes) AS total_bytes by sourcetype 
+| fillnull total_bytes value="NULL" 
+| eval status = case(total_bytes<644441165, "True", total_bytes="NULL", "Undefined", 1=1, "False")
+
+
+index=main source="vendors.csv" 
+| geostats count by VendorCountry latfield=VendorLatitude longfield=VendorLongitude
+__________
+Day 2: 
+
+Report: index=main source=Sample_tickets.csv | stats count by severity
+
+
+0 10-18 * 6,7,9 1-5
+
+
+https://webhook.site/
+
+
+index=main source="sample_tickets.csv"  | table severity| dedup severity
+
+index=main source="sample_tickets.csv"  | dedup severity| table severity
+
+
